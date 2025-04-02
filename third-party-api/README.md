@@ -21,3 +21,6 @@ Mocky is a little different to a lot of mock/stub services as to manage the mock
     - Make a note of the Uri of the Mock.
     - Update the server URL in the swagger spec in the `third-party-api/Premium Car/premium-car-valuations-0.1-swagger.yaml` file
     - Update the link to the stub in the ReadMe file (under Premium Car Valuations header)
+
+- Problems faced
+    - Mocking database operation took a lot of time. This was due to lack of the resources in the web and my limited experience with typescript and used frameworks.
