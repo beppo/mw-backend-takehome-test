@@ -1,11 +1,12 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import sinon from 'sinon';
 import axios from 'axios';
-import { fetchValuationFromPremiumCarValuation } from '../premium-car-valuation';
+import { PremiumCarValuation } from '../premium-car-valuation';
 import { VehicleValuation } from '@app/models/vehicle-valuation';
 
 describe('PremiumCarValuations test', () => {
     let axiosGetStub: sinon.SinonStub;
+    let premiumCarValuation = new PremiumCarValuation();
 
     beforeEach(() => {
         axiosGetStub = sinon.stub(axios, 'get');
@@ -33,7 +34,7 @@ describe('PremiumCarValuations test', () => {
         });
 
         // Act
-        const result = await fetchValuationFromPremiumCarValuation('ABC123', 50000);
+        const result = await premiumCarValuation.getPrice('ABC123', 50000);
 
         // Assert
         expect(result).toBeInstanceOf(VehicleValuation);
@@ -53,7 +54,7 @@ describe('PremiumCarValuations test', () => {
 
         // Act & Assert
         await expect(
-            fetchValuationFromPremiumCarValuation('ABC123', 50000)
+            premiumCarValuation.getPrice('ABC123', 50000)
         ).rejects.toThrow('Failed to fetch data from the API');
     });
 
@@ -63,7 +64,7 @@ describe('PremiumCarValuations test', () => {
 
         // Act & Assert
         await expect(
-            fetchValuationFromPremiumCarValuation('ABC123', 50000)
+            premiumCarValuation.getPrice('ABC123', 50000)
         ).rejects.toThrow('Network error');
     });
 
@@ -76,7 +77,7 @@ describe('PremiumCarValuations test', () => {
 
         // Act & Assert
         await expect(
-            fetchValuationFromPremiumCarValuation('ABC123', 50000)
+            premiumCarValuation.getPrice('ABC123', 50000)
         ).rejects.toThrow('Unclosed root tag');
     });
 });
