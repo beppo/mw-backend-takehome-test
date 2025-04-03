@@ -1,3 +1,5 @@
+// Initially planned to use the same log entry for both audit and circuit but that will require
+// change in the 
 import { RequestLogEntry } from "@app/models/request-log-entry";
 
 export class CircuitBreaker {
@@ -47,6 +49,32 @@ export class CircuitBreaker {
             this.requests = this.requests.slice(this.requests.length - this.aproximateNumberOfRequestsToKeep);
         }
 
+    }
+
+    // This function is not tested, so might not work as expected
+    execute<T>(fn: () => Promise<T>): Promise<T> {
+        if (this.isOpen()) {
+            return Promise.reject(new Error("Circuit is open"));
+        }
+        return fn().then(result => {this.addRequest({
+            requestDateTime: new Date(),
+            requestDuration: 0, // Placeholder for request duration
+            requestUrl: "", // Placeholder for request URL
+            responseCode: 200, // Placeholder for response code
+            providerName: "CircuitBreaker",
+        });
+            return result;
+        }).catch((error) => {
+            this.addRequest({
+                requestDateTime: new Date(),
+                requestDuration: 0, // Placeholder for request duration
+                requestUrl: "", // Placeholder for request URL
+                responseCode: 500, // Placeholder for response code
+                errorMessage: error.message,
+                providerName: "CircuitBreaker",
+            });
+            throw error;
+        });
     }
 
 };

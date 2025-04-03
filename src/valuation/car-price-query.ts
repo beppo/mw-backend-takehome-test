@@ -1,4 +1,6 @@
 import { VehicleValuation } from "@app/models/vehicle-valuation";
+// Inferface for price query of a car
+// This interface defines the contract for any class that implements it
 export interface CarPriceQuery {
     /**
      * Calculates the car's price based on VRM and mileage

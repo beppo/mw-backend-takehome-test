@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class RequestLogEntry {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column({ type: 'timestamp' })
     requestDateTime: Date;
