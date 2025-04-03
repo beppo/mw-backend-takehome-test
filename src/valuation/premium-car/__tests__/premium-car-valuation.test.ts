@@ -2,7 +2,7 @@ import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import sinon from 'sinon';
 import axios from 'axios';
 import { fetchValuationFromPremiumCarValuation } from '../premium-car-valuation';
-import { VehicleValuation } from '../../models/vehicle-valuation';
+import { VehicleValuation } from '@app/models/vehicle-valuation';
 
 describe('PremiumCarValuations test', () => {
     let axiosGetStub: sinon.SinonStub;

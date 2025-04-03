@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
 
-import { VehicleValuation } from '../models/vehicle-valuation';
+import { VehicleValuation } from '@app/models/vehicle-valuation';
 import { PremiumCarValuationResponse } from './types/premium-valuation-response';
 
 

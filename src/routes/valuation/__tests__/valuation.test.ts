@@ -2,7 +2,7 @@ import {fastify, mockRepository} from '~root/test/fastify';
 import { VehicleValuationRequest } from '../types/vehicle-valuation-request';
 import { vi } from 'vitest';
 
-vi.mock('@app/super-car/super-car-valuation', () => ({
+vi.mock('@app/valuation/super-car/super-car-valuation', () => ({
   fetchValuationFromSuperCarValuation: vi.fn(async (vrm: string, mileage: number) => {
     return {
       vrm,
