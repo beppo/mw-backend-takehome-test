@@ -1,6 +1,6 @@
 // Initially planned to use the same log entry for both audit and circuit but that will require
 // change in the 
-import { RequestLogEntry } from "@app/audit/request-log-entry";
+import { ProviderLogs } from "@app/audit/provider-logs";
 
 export class CircuitBreaker {
     // openCircuitThreshold: number; // Percentage of failures before circuit opens
@@ -10,7 +10,7 @@ export class CircuitBreaker {
     // minNumberOfRequests: number; // Minimum number of requests to consider for circuit state
     minNumberOfRequests: number;
     // requests: RequestLogEntry[]; // Array to store request logs
-    requests: RequestLogEntry[];
+    requests: ProviderLogs[];
     // numberOfRequests: number; // Number of requests to keep track of
     // Consider only the last n requests within the time window as too many requests are expected and last n request will be the most relavant ones
     aproximateNumberOfRequestsToKeep: number;
@@ -37,7 +37,7 @@ export class CircuitBreaker {
         return failureCount/recentRequests.length >= this.openCircuitThreshold;
     }
 
-    addRequest(request: RequestLogEntry): void {
+    addRequest(request: ProviderLogs): void {
         this.requests.push(request);
         // Remove old requests outside the window
         const now = new Date();

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FastifyInstance } from 'fastify';
-import { RequestLogEntry } from "@app/audit/request-log-entry";
+import { ProviderLogs } from "@app/audit/provider-logs";
 
 axios.interceptors.request.use((config) => {
     console.log(`[Outgoing Request] ${config.method?.toUpperCase()} ${config.url}`); // Log the request method and URL
@@ -14,7 +14,7 @@ const logEntry = async (fastify: FastifyInstance, requestUrl: string, responseCo
     const duration = (endTime.getTime() - config.startTime.getTime()) / 1000;
 
     // Log request details
-    const logEntry = new RequestLogEntry();
+    const logEntry = new ProviderLogs();
     logEntry.requestDateTime = new Date();
     logEntry.requestDuration = duration;
     logEntry.requestUrl = requestUrl;
@@ -23,8 +23,8 @@ const logEntry = async (fastify: FastifyInstance, requestUrl: string, responseCo
     // I don't know whether it is possible but this could be set when making the call to the API
     logEntry.providerName = config.providerName || "Unknown Provider";
 
-    const valuationRepository = fastify.orm.getRepository(RequestLogEntry);
-    const repo = fastify.orm.getRepository(RequestLogEntry);
+    const valuationRepository = fastify.orm.getRepository(ProviderLogs);
+    const repo = fastify.orm.getRepository(ProviderLogs);
     await repo.save(logEntry);
 }
 

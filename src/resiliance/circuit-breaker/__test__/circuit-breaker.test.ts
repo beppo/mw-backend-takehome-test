@@ -1,10 +1,10 @@
 import { describe, it, beforeEach, expect } from 'vitest';
 import { CircuitBreaker } from '../circuit-breaker';
-import { RequestLogEntry } from '@app/audit/request-log-entry';
+import { ProviderLogs } from '@app/audit/provider-logs';
 import sinon from 'sinon';
 
-function mockRequestLogEntry(date: Date, responseCode:number): RequestLogEntry {
-    let logEntry = new RequestLogEntry();
+function mockRequestLogEntry(date: Date, responseCode:number): ProviderLogs {
+    let logEntry = new ProviderLogs();
     logEntry.requestDateTime = date;
     logEntry.responseCode = responseCode;
     return logEntry;

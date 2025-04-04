@@ -119,4 +119,30 @@ The URI for this test stub in Mocky is https://run.mocky.io/v3/0dfda26a-3a5a-43e
 
 
 # Candidate Notes
-Here is a place for you to put any notes regarding the changes you made and the reasoning and what further changes you wish to suggest.
+This test took a lot of my time and I wasn't able to complete all requirements. As I think I have spent enaough time to display my capabiliteis I have stopped further refining the implementation and implementing features fully. 
+The biggest challenge I have had was to mock database I/O.
+
+- Introduce a basic failover ....
+I introduced a common interface for outgoing price query calls. The valuation service receives an implementation of this interface via dependency injection, which handles the failover logic and delegates requests to the appropriate third-party API. The failover logic is basic and not fully refined—it uses a circuit breaker that considers only the last n requests, which are more relevant and help protect the service from a large number of failing requests.
+If the service were deployed with multiple instances, I would consider using something like Redis to manage circuit state. Status log entries could be set to expire with a TTL, and a Lua script could be used to determine circuit state server-side without transferring data to the clients.
+
+- As Premium Car Valuations ...
+The circuit state resets automatically as error logs expire, so Premium Car Valuations are only used when the primary circuit is open.
+
+- If both providers are unreachable...
+I didn’t implement this, but it would simply involve catching the exception in the service and returning a 503 response.
+
+- To save costs by avoiding ...
+This was not implemented, but I don’t anticipate any complexity in doing so.
+
+- To help increase customer ...
+This was implemented for Premium Cars only. The message string is currently hardcoded as "Premium Cars".
+
+- The service should be tolerant ...
+The relevant property is marked as optional.
+
+- Refactor the code as ...
+Refactoring was done for third-party API calls only.
+
+- To help with auditing service...
+A basic implementation has been provided to demonstrate the approach I would take.

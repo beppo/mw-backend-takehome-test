@@ -7,7 +7,7 @@ import { valuationRoutes } from './routes/valuation';
 import databaseConnection from 'typeorm-fastify-plugin';
 import { VehicleValuation } from './models/vehicle-valuation';
 import { startAudit } from './audit/audit';
-import { RequestLogEntry } from './audit/request-log-entry';
+import { ProviderLogs } from './audit/provider-logs';
 import { createCarPriceQuery } from './valuation';
 
 export const app = (opts?: FastifyServerOptions) => {
@@ -18,7 +18,7 @@ export const app = (opts?: FastifyServerOptions) => {
       database: process.env.DATABASE_PATH!,
       synchronize: process.env.SYNC_DATABASE === 'true',
       logging: false,
-      entities: [VehicleValuation, RequestLogEntry],
+      entities: [VehicleValuation, ProviderLogs],
       migrations: [],
       subscribers: [],
     })
