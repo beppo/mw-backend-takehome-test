@@ -1,5 +1,8 @@
-import { fastify } from '~root/test/fastify';
+import {fastify, mockRepository} from '~root/test/fastify';
 import { VehicleValuationRequest } from '../types/vehicle-valuation-request';
+import { vi } from 'vitest';
+
+
 
 describe('ValuationController (e2e)', () => {
   describe('PUT /valuations/', () => {
@@ -72,6 +75,50 @@ describe('ValuationController (e2e)', () => {
       });
 
       expect(res.statusCode).toStrictEqual(200);
+    });
+  });
+
+  describe('GET /valuations/:vrm', () => {
+    beforeEach(() => {
+      mockRepository.findOneBy.resetHistory(); 
+    })
+
+    it('should return 404 if VRM is missing', async () => {
+      const res = await fastify.inject({
+        url: '/valuations',
+        method: 'GET',
+      });
+
+      expect(res.statusCode).toStrictEqual(404);
+    });
+
+    it('should return 400 if VRM is 8 characters or more', async () => {
+      const res = await fastify.inject({
+        url: '/valuations/12345678',
+        method: 'GET',
+      });
+
+      expect(res.statusCode).toStrictEqual(400);
+    });
+
+    it('should return 200 with valid request', async () => {
+      const res = await fastify.inject({
+        url: '/valuations/ABC1234',
+        method: 'GET',
+      });
+
+      expect(res.statusCode).toStrictEqual(200);
+      expect(res.json()).toStrictEqual({ vrm: 'ABC123', lowestValue: 5000, highestValue: 10000 });
+    });
+
+    it('should return 404 if VRM not found in DB', async () => {
+      mockRepository.findOneBy.resolves(undefined);
+      const res = await fastify.inject({
+        url: '/valuations/ABC123',
+        method: 'GET',
+      });
+
+      expect(res.statusCode).toStrictEqual(404);
     });
   });
 });

@@ -1,6 +1,5 @@
 import { FastifyInstance } from 'fastify';
 import { VehicleValuationRequest } from './types/vehicle-valuation-request';
-import { fetchValuationFromSuperCarValuation } from '@app/super-car/super-car-valuation';
 import { VehicleValuation } from '@app/models/vehicle-valuation';
 
 export function valuationRoutes(fastify: FastifyInstance) {
@@ -57,7 +56,7 @@ export function valuationRoutes(fastify: FastifyInstance) {
         });
     }
 
-    const valuation = await fetchValuationFromSuperCarValuation(vrm, mileage);
+    const valuation = await fastify.carPriceQuery.getPrice(vrm, mileage);
 
     // Save to DB.
     await valuationRepository.insert(valuation).catch((err) => {
