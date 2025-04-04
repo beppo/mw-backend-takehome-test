@@ -1,6 +1,6 @@
 // Initially planned to use the same log entry for both audit and circuit but that will require
 // change in the 
-import { RequestLogEntry } from "@app/models/request-log-entry";
+import { RequestLogEntry } from "@app/audit/request-log-entry";
 
 export class CircuitBreaker {
     // openCircuitThreshold: number; // Percentage of failures before circuit opens
@@ -76,5 +76,4 @@ export class CircuitBreaker {
             throw error;
         });
     }
-
 };

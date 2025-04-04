@@ -31,6 +31,23 @@ vi.mock('typeorm-fastify-plugin', async () => {
   };
 });
 
+vi.mock('@app/valuation/index', () => {
+  // Define the plugin function Fastify will use
+  const createCarPriceQuery = async (fastify: any) => {
+    fastify.decorate('carPriceQuery', {
+      getPrice: vi.fn(async (vrm: string, mileage: number) => {
+        return {
+          vrm,
+          lowestValue: 5000,
+          highestValue: 10000,
+        };
+      }), // Ensure stub is used
+    });
+  };
+
+  return { createCarPriceQuery };
+});
+
 // This must be imported after the mock to ensure the mock is used
 import { app } from '@app/app'
 

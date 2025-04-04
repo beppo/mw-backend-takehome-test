@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, expect } from 'vitest';
 import { CircuitBreaker } from '../circuit-breaker';
-import { RequestLogEntry } from '@app/models/request-log-entry';
+import { RequestLogEntry } from '@app/audit/request-log-entry';
 import sinon from 'sinon';
 
 function mockRequestLogEntry(date: Date, responseCode:number): RequestLogEntry {

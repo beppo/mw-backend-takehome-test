@@ -5,7 +5,7 @@ export class RequestLogEntry {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'datetime' })
     requestDateTime: Date;
 
     @Column('decimal', { precision: 10, scale: 2 })

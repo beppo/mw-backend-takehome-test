@@ -7,6 +7,8 @@ import { valuationRoutes } from './routes/valuation';
 import databaseConnection from 'typeorm-fastify-plugin';
 import { VehicleValuation } from './models/vehicle-valuation';
 import { startAudit } from './audit/audit';
+import { RequestLogEntry } from './audit/request-log-entry';
+import { createCarPriceQuery } from './valuation';
 
 export const app = (opts?: FastifyServerOptions) => {
   const fastify = Fastify(opts);
@@ -16,7 +18,7 @@ export const app = (opts?: FastifyServerOptions) => {
       database: process.env.DATABASE_PATH!,
       synchronize: process.env.SYNC_DATABASE === 'true',
       logging: false,
-      entities: [VehicleValuation],
+      entities: [VehicleValuation, RequestLogEntry],
       migrations: [],
       subscribers: [],
     })
@@ -24,6 +26,8 @@ export const app = (opts?: FastifyServerOptions) => {
 
   // I am not sure whether this is the right way to inject Fastify into the audit
   startAudit(fastify);
+
+  createCarPriceQuery(fastify);
 
   fastify.get('/', async () => {
     return { hello: 'world' };

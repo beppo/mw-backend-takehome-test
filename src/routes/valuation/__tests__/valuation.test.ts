@@ -2,17 +2,7 @@ import {fastify, mockRepository} from '~root/test/fastify';
 import { VehicleValuationRequest } from '../types/vehicle-valuation-request';
 import { vi } from 'vitest';
 
-vi.mock('@app/valuation/index', () => ({
-  carPriceQuery: {
-    getPrice: vi.fn(async (vrm: string, mileage: number) => {
-      return {
-        vrm,
-        lowestValue: 5000,
-        highestValue: 10000,
-      };
-    }),
-  },
-}));
+
 
 describe('ValuationController (e2e)', () => {
   describe('PUT /valuations/', () => {

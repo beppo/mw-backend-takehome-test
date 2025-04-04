@@ -1,13 +1,13 @@
 import axios from "axios";
 import { FastifyInstance } from 'fastify';
-import { RequestLogEntry } from "@app/models/request-log-entry";
-// This code is not tested yet. I am not sure whether it will work as expected.
-// But registering a default interceptor seems to be the right way to do create audit logs for all requests made by axios.
+import { RequestLogEntry } from "@app/audit/request-log-entry";
 
 axios.interceptors.request.use((config) => {
+    console.log(`[Outgoing Request] ${config.method?.toUpperCase()} ${config.url}`); // Log the request method and URL
     (config as any).startTime = new Date(); // Track request start time
     return config;
 });
+
 
 const logEntry = async (fastify: FastifyInstance, requestUrl: string, responseCode: number, config: any, errorMessage?: string) => {
     const endTime = new Date();
